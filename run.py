@@ -1,26 +1,24 @@
-from ctypes import OleDLL
+import configparser
 import hashlib
-from operator import ge
-from typing import NewType
-from Crypto.Cipher.PKCS1_v1_5 import new
+import os
+import smtplib
 import time
-from email import encoders
-from email import header
+import configparser
+from email import encoders, header
 from email.header import Header
 from email.mime.text import MIMEText
-from email.utils import parseaddr, formataddr
-import smtplib
-import configparser
+from email.utils import formataddr, parseaddr
 import os
+import smtplib
+
 import time
-from requests.models import LocationParseError, StreamConsumedError
 
 # 获取文件的md5
 
 
 def getFileMD5(fileLocation):
 
-    file = open(fileLocation, "r")
+    file = open(fileLocation, "r",encoding="utf-8")
     filestring = file.read()
     file.close()
     m = hashlib.md5(filestring.encode(encoding='utf-8')).hexdigest()
@@ -32,7 +30,7 @@ def getFileMD5(fileLocation):
 def checkIt(location):
     newMD5 = getFileMD5(location)
     if not os.path.exists('./record.txt'):
-        f = open('./record.txt', "w")
+        f = open('./record.txt', "w",encoding="gbk")
         f.write(newMD5)
         f.close()
     file1 = open("./record.txt", "r")
